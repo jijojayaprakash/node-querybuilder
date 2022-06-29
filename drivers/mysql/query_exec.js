@@ -168,16 +168,17 @@ class QueryExec extends QueryBuilder {
         }
 
         const sqls = this._update_batch(table, set, index, where);
-        const results = null;
+        var results = null;
         const errors = [];
+        var _this=this;
 
         // Execute each batch of (at least) 100
         const handler = (resolve, reject) => {
             (function next_batch() {
                 const sql = sqls.shift();
-                this.reset_query(sql);
+                _this.reset_query(sql);
 
-                this._exec(sql, (err, res) => {
+                _this._exec(sql, (err, res) => {
                     if (!err) {
                         if (null === results) {
                             results = res;
